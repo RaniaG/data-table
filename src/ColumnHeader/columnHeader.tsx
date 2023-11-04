@@ -7,28 +7,35 @@ export const ColumnHeader = <T extends {}>({
   column,
   sortState,
 }: ColumnHeaderProps<T>) => {
-  const { key, title, onSort, onClick } = column;
-  return (
+  const {
+    key,
+    title,
+    customSortIndicator,
+    onSort,
+    onClick,
+    customColumnRenderer,
+  } = column;
+  return customColumnRenderer ? (
+    customColumnRenderer(column)
+  ) : (
     <S.ColHeader
       onClick={() => {
         onClick?.(key);
         onSort?.(key);
       }}
     >
-      {typeof title == "string" ? (
-        <S.ColHeaderContent>
-          <span>{title}</span>
-          {sortState == "asc" ? (
-            <SvgChevronUp />
-          ) : sortState == "desc" ? (
-            <SvgChevronDown />
-          ) : (
-            ""
-          )}
-        </S.ColHeaderContent>
-      ) : (
-        title(column)
-      )}
+      <S.ColHeaderContent>
+        {typeof title == "string" ? <span>{title}</span> : title}
+        {customSortIndicator ? (
+          customSortIndicator({ sortState })
+        ) : sortState == "asc" ? (
+          <SvgChevronUp />
+        ) : sortState == "desc" ? (
+          <SvgChevronDown />
+        ) : (
+          ""
+        )}
+      </S.ColHeaderContent>
     </S.ColHeader>
   );
 };
