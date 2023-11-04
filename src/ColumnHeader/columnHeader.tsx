@@ -1,18 +1,27 @@
-import React from "react";
-import { DataTableColumn } from "./columnHeader.types";
+import React, { useState } from "react";
+import { ColumnHeaderProps, DataTableColumn } from "./columnHeader.types";
 import * as S from "./columnHeader.styled";
 
-export const ColumnHeader = <T extends {}>(col: DataTableColumn<T>) => {
-  const { key, title } = col;
-  const sortColumn = () => {};
+export const ColumnHeader = <T extends {}>({
+  column,
+  sortState,
+}: ColumnHeaderProps<T>) => {
+  const { key, title, onSort, onClick } = column;
   return (
     <S.ColHeader
       onClick={() => {
-        col.onClick(key);
-        sortColumn();
+        onClick?.(key);
+        onSort?.(key);
       }}
     >
-      {typeof title == "string" ? title : title(col)}
+      {typeof title == "string" ? (
+        <>
+          {sortState == "asc" ? ">" : sortState == "desc" ? "<" : ""}
+          {title}
+        </>
+      ) : (
+        title(column)
+      )}
     </S.ColHeader>
   );
 };

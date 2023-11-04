@@ -8,3 +8,8 @@ export interface DataTableColumn<T> {
   onClick?: (id: string) => void;
   onSort?: (id: string) => void;
 }
+
+export interface ColumnHeaderProps<T> {
+  column: DataTableColumn<T>;
+  sortState?: "asc" | "desc" | undefined;
+}
