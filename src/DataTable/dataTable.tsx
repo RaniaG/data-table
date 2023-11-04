@@ -12,6 +12,7 @@ export const DataTable = <T extends {}>({
   const [sortState, setSortState] = useState({});
   const onColumnSort = useCallback(
     (id: string) => {
+      if (!columns.find((c) => c.key === id)?.sortable) return;
       let newState = { ...sortState };
       if (sortState[id]) {
         if (sortState[id] === "desc") {
@@ -45,9 +46,11 @@ export const DataTable = <T extends {}>({
         />
       ))}
       {processedData.map((row, i) =>
-        columns.map((cell, j) => (
-          <S.Cell key={`${cell.key}_${i}_${j}`}>{row[cell.key]}</S.Cell>
-        ))
+        columns
+          .filter((e) => !e.hide)
+          .map((cell, j) => (
+            <S.Cell key={`${cell.key}_${i}_${j}`}>{row[cell.key]}</S.Cell>
+          ))
       )}
     </S.DataTable>
   );

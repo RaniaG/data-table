@@ -10,6 +10,7 @@ export const ColumnHeader = <T extends {}>({
   const {
     key,
     title,
+    sortable,
     customSortIndicator,
     onSort,
     onClick,
@@ -21,7 +22,7 @@ export const ColumnHeader = <T extends {}>({
     <S.ColHeader
       onClick={() => {
         onClick?.(key);
-        onSort?.(key);
+        if (sortable) onSort?.(key);
       }}
     >
       <S.ColHeaderContent>

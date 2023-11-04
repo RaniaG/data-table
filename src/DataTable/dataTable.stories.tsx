@@ -92,6 +92,7 @@ export const DefaultTable = () => (
         {
           key: "three",
           title: "Default settings",
+          sortable: false,
         },
       ]}
       data={[

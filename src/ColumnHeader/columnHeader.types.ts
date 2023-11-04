@@ -6,7 +6,6 @@ export interface DataTableColumn<T> {
   fixed?: boolean;
   customColumnRenderer?: React.FC<DataTableColumn<T>>;
   customSortIndicator?: React.FC<{ sortState: "asc" | "desc" | undefined }>;
-  sortFunction?: (x: T, y: T) => 0 | 1 | -1;
   onClick?: (id: string) => void;
   onSort?: (id: string) => void;
 }
