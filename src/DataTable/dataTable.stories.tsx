@@ -24,8 +24,8 @@ export const DefaultTable = () => (
       ]}
       data={[
         { one: 1, two: 5 },
-        { one: 2, two: 3, three: 6 },
-        { one: 2, two: 4, three: 6 },
+        { one: 2, two: 3, three: "a" },
+        { one: 2, two: 4, three: "b" },
       ]}
     />
   </div>

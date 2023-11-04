@@ -28,6 +28,8 @@ export const DataTable = <T extends {}>({
         Object.keys(newState),
         Object.values(newState)
       ) as T[];
+      console.log(sortedData);
+      console.log(Object.keys(newState), Object.values(newState));
       setProcessedData(sortedData);
       setSortState(newState);
     },
@@ -39,6 +41,7 @@ export const DataTable = <T extends {}>({
         <ColumnHeader
           column={{ ...col, onSort: col.onSort ?? onColumnSort }}
           key={col.key}
+          sortState={sortState[col.key]}
         />
       ))}
       {processedData.map((row, i) =>

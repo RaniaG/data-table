@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { ColumnHeaderProps, DataTableColumn } from "./columnHeader.types";
 import * as S from "./columnHeader.styled";
+import { SvgChevronDown, SvgChevronUp } from "../Icons";
 
 export const ColumnHeader = <T extends {}>({
   column,
@@ -15,10 +16,16 @@ export const ColumnHeader = <T extends {}>({
       }}
     >
       {typeof title == "string" ? (
-        <>
-          {sortState == "asc" ? ">" : sortState == "desc" ? "<" : ""}
-          {title}
-        </>
+        <S.ColHeaderContent>
+          <span>{title}</span>
+          {sortState == "asc" ? (
+            <SvgChevronUp />
+          ) : sortState == "desc" ? (
+            <SvgChevronDown />
+          ) : (
+            ""
+          )}
+        </S.ColHeaderContent>
       ) : (
         title(column)
       )}
