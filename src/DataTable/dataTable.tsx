@@ -3,6 +3,7 @@ import { DataTableProps } from "./dataTable.types";
 import * as S from "./dataTable.styled";
 import { ColumnHeader } from "../ColumnHeader";
 import _ from "lodash";
+import { Pagination } from "../Pagination/pagination";
 
 export const DataTable = <T extends {}>({
   columns,
@@ -29,29 +30,30 @@ export const DataTable = <T extends {}>({
         Object.keys(newState),
         Object.values(newState)
       ) as T[];
-      console.log(sortedData);
-      console.log(Object.keys(newState), Object.values(newState));
       setProcessedData(sortedData);
       setSortState(newState);
     },
     [data, processedData, sortState, setSortState, setProcessedData]
   );
   return (
-    <S.DataTable totalColCount={columns.filter((e) => !e.hide).length}>
-      {columns.map((col) => (
-        <ColumnHeader
-          column={{ ...col, onSort: col.onSort ?? onColumnSort }}
-          key={col.key}
-          sortState={sortState[col.key]}
-        />
-      ))}
-      {processedData.map((row, i) =>
-        columns
-          .filter((e) => !e.hide)
-          .map((cell, j) => (
-            <S.Cell key={`${cell.key}_${i}_${j}`}>{row[cell.key]}</S.Cell>
-          ))
-      )}
-    </S.DataTable>
+    <>
+      <S.DataTable totalColCount={columns.filter((e) => !e.hide).length}>
+        {columns.map((col) => (
+          <ColumnHeader
+            column={{ ...col, onSort: col.onSort ?? onColumnSort }}
+            key={col.key}
+            sortState={sortState[col.key]}
+          />
+        ))}
+        {processedData.map((row, i) =>
+          columns
+            .filter((e) => !e.hide)
+            .map((cell, j) => (
+              <S.Cell key={`${cell.key}_${i}_${j}`}>{row[cell.key]}</S.Cell>
+            ))
+        )}
+      </S.DataTable>
+      <Pagination totalNumberOfItems={20} pageSize={2} />
+    </>
   );
 };
