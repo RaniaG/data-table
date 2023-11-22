@@ -4,9 +4,18 @@ export interface PaginationProps extends CustomPaginationProps {
 }
 
 export interface CustomPaginationProps {
-  customPageNumberRenderer?: React.FC<{ isActive: boolean }>;
-  customStartArrowRenderer?: React.FC<{ disabled: boolean }>;
-  customEndArrowRenderer?: React.FC<{ disabled: boolean }>;
-  onPageSizeChange?: (pageSize: number) => void;
+  customPageNumberRenderer?: React.FC<{
+    pageNumber: number | "...";
+    isActive: boolean;
+    onClick: () => void;
+  }>;
+  customStartArrowRenderer?: React.FC<{
+    disabled: boolean;
+    onClick: () => void;
+  }>;
+  customEndArrowRenderer?: React.FC<{
+    disabled: boolean;
+    onClick: () => void;
+  }>;
   onPageChange?: (pageNumber: number) => void;
 }

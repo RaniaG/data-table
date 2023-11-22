@@ -100,6 +100,21 @@ export const DefaultTable = () => (
         { one: 2, two: 3, three: "a" },
         { one: 2, two: 4, three: "b" },
       ]}
+      customPagination={{
+        customPageNumberRenderer: ({ pageNumber, isActive }) => {
+          return (
+            <button style={{ backgroundColor: isActive ? "red" : "grey" }}>
+              {pageNumber}
+            </button>
+          );
+        },
+        customStartArrowRenderer: ({ disabled, onClick }) => (
+          <button onClick={() => onClick()}>{"<"}</button>
+        ),
+        customEndArrowRenderer: ({ disabled, onClick }) => (
+          <button onClick={() => onClick()}>{">"}</button>
+        ),
+      }}
     />
   </div>
 );

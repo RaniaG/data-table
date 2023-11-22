@@ -8,6 +8,7 @@ import { Pagination } from "../Pagination/pagination";
 export const DataTable = <T extends {}>({
   columns,
   data,
+  customPagination,
 }: DataTableProps<T>) => {
   const [processedData, setProcessedData] = useState(data);
   const [sortState, setSortState] = useState({});
@@ -53,7 +54,7 @@ export const DataTable = <T extends {}>({
             ))
         )}
       </S.DataTable>
-      <Pagination totalNumberOfItems={20} pageSize={2} />
+      <Pagination totalNumberOfItems={20} pageSize={2} {...customPagination} />
     </>
   );
 };
