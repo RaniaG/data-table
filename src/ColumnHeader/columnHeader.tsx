@@ -1,31 +1,34 @@
 import React, { useState } from "react";
 import { ColumnHeaderProps, DataTableColumn } from "./columnHeader.types";
 import * as S from "./columnHeader.styled";
-import { SvgChevronDown, SvgChevronUp } from "../Icons";
+import { SvgChevronDown, SvgChevronUp, SvgFilter } from "../Icons";
 
 export const ColumnHeader = <T extends {}>({
   column,
   sortState,
+  filterState,
+  onFilter,
 }: ColumnHeaderProps<T>) => {
   const {
     key,
     title,
     sortable,
+    allowFiltering,
     customSortIndicator,
+    customColumnRenderer,
     onSort,
     onClick,
-    customColumnRenderer,
   } = column;
   return customColumnRenderer ? (
     customColumnRenderer(column)
   ) : (
-    <S.ColHeader
-      onClick={() => {
-        onClick?.(key);
-        if (sortable) onSort?.(key);
-      }}
-    >
-      <S.ColHeaderContent>
+    <S.ColHeader>
+      <S.ColHeaderContent
+        onClick={() => {
+          onClick?.(key);
+          if (sortable) onSort?.(key);
+        }}
+      >
         {typeof title == "string" ? <span>{title}</span> : title}
         {customSortIndicator ? (
           customSortIndicator({ sortState })
@@ -37,6 +40,15 @@ export const ColumnHeader = <T extends {}>({
           ""
         )}
       </S.ColHeaderContent>
+      {allowFiltering && (
+        <S.ColFilter>
+          <input
+            value={filterState}
+            onChange={(e) => onFilter(e.target.value)}
+          />
+          <SvgFilter />
+        </S.ColFilter>
+      )}
     </S.ColHeader>
   );
 };

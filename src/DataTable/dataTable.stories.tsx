@@ -12,6 +12,7 @@ export const DefaultTable = () => (
         {
           key: "one",
           title: <h2>Custom Title and Sort Indicator Only</h2>,
+          sortable: true,
           customSortIndicator: ({ sortState }) => {
             return sortState === "asc" ? (
               <svg
@@ -83,6 +84,7 @@ export const DefaultTable = () => (
         {
           key: "two",
           title: "Custom column Renderer",
+          sortable: true,
           customColumnRenderer: ({ key, title, onSort }) => (
             <div style={{ color: "red" }} onClick={() => onSort?.(key)}>
               {title}
@@ -93,6 +95,7 @@ export const DefaultTable = () => (
           key: "three",
           title: "Default settings",
           sortable: false,
+          allowFiltering: true,
         },
       ]}
       data={[

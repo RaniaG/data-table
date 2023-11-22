@@ -7,3 +7,14 @@ export const ColHeaderContent = styled.div`
   display: flex;
   justify-content: space-between;
 `;
+
+export const ColFilter = styled.div`
+  display: flex;
+  flex-direction: row;
+  border: 1px solid green;
+  input {
+    width: calc(100% - 4px);
+    padding: 0;
+    border: none;
+  }
+`;

@@ -3,9 +3,10 @@ export interface DataTableColumn<T> {
   title: string | React.ReactNode;
   hide?: boolean;
   sortable?: boolean;
-  fixed?: boolean;
+  allowFiltering?: boolean;
   customColumnRenderer?: React.FC<DataTableColumn<T>>;
   customSortIndicator?: React.FC<{ sortState: "asc" | "desc" | undefined }>;
+  customFilter?: (cellValue: T, filterValue: string) => boolean;
   onClick?: (id: string) => void;
   onSort?: (id: string) => void;
 }
@@ -13,4 +14,6 @@ export interface DataTableColumn<T> {
 export interface ColumnHeaderProps<T> {
   column: DataTableColumn<T>;
   sortState?: "asc" | "desc" | undefined;
+  filterState?: string;
+  onFilter?: (filterValue: string) => void;
 }
