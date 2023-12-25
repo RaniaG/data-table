@@ -1,18 +1,15 @@
 import React, { useCallback, useMemo, useState } from "react";
-import { PaginationProps } from "./pagination.types";
-import * as S from "./pagination.styled";
-import { SvgChevronLeft, SvgChevronRight } from "../Icons";
+import { SecondaryPaginationProps } from "./secondaryPagination.types";
+import * as S from "./secondaryPagination.styled";
+import { SvgChevronLeft, SvgChevronRight } from "@icons";
 import { inRange } from "lodash";
 
-export const Pagination = ({
+export const SecondaryPagination = ({
   totalNumberOfItems,
   pageSize,
-  customPageNumberRenderer,
-  customStartArrowRenderer,
-  customEndArrowRenderer,
+  currentPage,
   onPageChange,
-}: PaginationProps) => {
-  const [currentPage, setCurrentPage] = useState(5);
+}: SecondaryPaginationProps) => {
   const totalPageCount = Math.ceil(totalNumberOfItems / pageSize);
 
   const paginationRange = useMemo(() => {
@@ -39,7 +36,6 @@ export const Pagination = ({
   const onPageChanged = useCallback(
     (p) => {
       if (Number(p) && inRange(p, 1, totalPageCount + 1)) {
-        setCurrentPage(p);
         onPageChange?.(p);
       }
     },
@@ -48,51 +44,31 @@ export const Pagination = ({
 
   return (
     <S.PaginationContainer>
-      {customStartArrowRenderer ? (
-        customStartArrowRenderer({
-          disabled: currentPage == 1,
-          onClick: () => onPageChanged(currentPage - 1),
-        })
-      ) : (
-        <S.Arrow
-          disabled={currentPage == 1}
-          onClick={() => onPageChanged(currentPage - 1)}
-        >
-          <SvgChevronLeft />
-        </S.Arrow>
-      )}
+      <S.PageButton
+        disabled={currentPage == 1}
+        onClick={() => onPageChanged(currentPage - 1)}
+      >
+        <SvgChevronLeft />
+      </S.PageButton>
       {paginationRange.map((p, i) => {
-        return customPageNumberRenderer ? (
-          customPageNumberRenderer({
-            pageNumber: p,
-            isActive: p == currentPage,
-            onClick: () => onPageChanged(p),
-          })
-        ) : Number(p) ? (
-          <S.Page
+        return Number(p) ? (
+          <S.PageButton
             key={`page_${p}`}
             disabled={p == currentPage}
             onClick={() => onPageChanged(p)}
           >
             {p}
-          </S.Page>
+          </S.PageButton>
         ) : (
           <span key={`page_dots_${i}`}>{p}</span>
         );
       })}
-      {customEndArrowRenderer ? (
-        customEndArrowRenderer({
-          disabled: currentPage == totalPageCount,
-          onClick: () => onPageChanged(currentPage + 1),
-        })
-      ) : (
-        <S.Arrow
-          disabled={currentPage == totalPageCount}
-          onClick={() => onPageChanged(currentPage + 1)}
-        >
-          <SvgChevronRight />
-        </S.Arrow>
-      )}
+      <S.PageButton
+        disabled={currentPage == totalPageCount}
+        onClick={() => onPageChanged(currentPage + 1)}
+      >
+        <SvgChevronRight />
+      </S.PageButton>
     </S.PaginationContainer>
   );
 };

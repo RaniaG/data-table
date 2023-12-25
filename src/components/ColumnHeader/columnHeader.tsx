@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { ColumnHeaderProps, DataTableColumn } from "./columnHeader.types";
 import * as S from "./columnHeader.styled";
-import { SvgChevronDown, SvgChevronUp, SvgFilter } from "../Icons";
+import { SvgChevronDown, SvgChevronUp, SvgFilter } from "../../Icons";
 
 export const ColumnHeader = <T extends {}>({
   column,
@@ -16,6 +16,7 @@ export const ColumnHeader = <T extends {}>({
     allowFiltering,
     customSortIndicator,
     customColumnRenderer,
+    customFilterRenderer,
     onSort,
     onClick,
   } = column;
@@ -24,6 +25,8 @@ export const ColumnHeader = <T extends {}>({
   ) : (
     <S.ColHeader>
       <S.ColHeaderContent
+        sortable={sortable}
+        data-testid="header"
         onClick={() => {
           onClick?.(key);
           if (sortable) onSort?.(key);
@@ -33,22 +36,26 @@ export const ColumnHeader = <T extends {}>({
         {customSortIndicator ? (
           customSortIndicator({ sortState })
         ) : sortState == "asc" ? (
-          <SvgChevronUp />
+          <SvgChevronUp data-testid="arrow-up" />
         ) : sortState == "desc" ? (
-          <SvgChevronDown />
+          <SvgChevronDown data-testid="arrow-down" />
         ) : (
           ""
         )}
       </S.ColHeaderContent>
-      {allowFiltering && (
-        <S.ColFilter>
-          <input
-            value={filterState}
-            onChange={(e) => onFilter(e.target.value)}
-          />
-          <SvgFilter />
-        </S.ColFilter>
-      )}
+      {allowFiltering &&
+        (customFilterRenderer ? (
+          customFilterRenderer({ value: filterState, onChange: onFilter })
+        ) : (
+          <S.ColFilter>
+            <input
+              data-testid="input-filter"
+              value={filterState}
+              onChange={(e) => onFilter(e.target.value)}
+            />
+            <SvgFilter />
+          </S.ColFilter>
+        ))}
     </S.ColHeader>
   );
 };

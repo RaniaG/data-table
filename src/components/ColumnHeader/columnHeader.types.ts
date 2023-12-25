@@ -6,7 +6,11 @@ export interface DataTableColumn<T> {
   allowFiltering?: boolean;
   customColumnRenderer?: React.FC<DataTableColumn<T>>;
   customSortIndicator?: React.FC<{ sortState: "asc" | "desc" | undefined }>;
-  customFilter?: (cellValue: T, filterValue: string) => boolean;
+  customFilterRenderer?: React.FC<{
+    value: string;
+    onChange: (value: string) => void;
+  }>;
+  customFilter?: (cellValue: any, filterValue: string) => boolean;
   onClick?: (id: string) => void;
   onSort?: (id: string) => void;
 }
